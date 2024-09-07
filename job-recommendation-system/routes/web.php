@@ -25,7 +25,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // Routes for Job Listings
-Route::middleware(['auth', 'role:employer'])->group(function () {
+Route::middleware(['auth', 'employer'])->group(function () {
     Route::get('/jobs/create', [JobListingController::class, 'create'])->name('jobs.create');
     Route::post('/jobs', [JobListingController::class, 'store'])->name('jobs.store');
     Route::get('/jobs/{job}', [JobListingController::class, 'show'])->name('jobs.show');
@@ -33,6 +33,7 @@ Route::middleware(['auth', 'role:employer'])->group(function () {
     Route::put('/jobs/{job}', [JobListingController::class, 'update'])->name('jobs.update');
     Route::delete('/jobs/{job}', [JobListingController::class, 'destroy'])->name('jobs.destroy');
 });
+
 
 
 require __DIR__.'/auth.php';
