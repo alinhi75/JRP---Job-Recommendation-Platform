@@ -24,15 +24,16 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Routes for Job Listings
+
+// Job listing routes
 Route::middleware(['auth', 'employer'])->group(function () {
     Route::get('/jobs/create', [JobListingController::class, 'create'])->name('jobs.create');
     Route::post('/jobs', [JobListingController::class, 'store'])->name('jobs.store');
-    Route::get('/jobs/{job}', [JobListingController::class, 'show'])->name('jobs.show');
     Route::get('/jobs/{job}/edit', [JobListingController::class, 'edit'])->name('jobs.edit');
     Route::put('/jobs/{job}', [JobListingController::class, 'update'])->name('jobs.update');
     Route::delete('/jobs/{job}', [JobListingController::class, 'destroy'])->name('jobs.destroy');
 });
+
 
 
 
