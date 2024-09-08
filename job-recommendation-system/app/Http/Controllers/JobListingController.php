@@ -43,4 +43,21 @@ class JobListingController extends Controller
         $job->delete();
         return redirect()->route('jobs.index');
     }
+
+    public function fetchJobs()
+    {
+        $apiKey = env('INDEED_API_KEY');
+        $response = Http::get('http://api.indeed.com/ads/apisearch', [
+            'q' => 'software engineer',
+            'l' => 'San Francisco',
+            'userip' => request()->ip(),
+            'useragent' => request()->userAgent(),
+            'format' => 'json',
+            'v' => '2',
+            'limit' => 10,
+            'apiKey' => $apiKey,
+        ]);
+
+        return response()->json($response->json());
+    }
 }
