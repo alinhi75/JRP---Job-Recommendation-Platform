@@ -96,4 +96,18 @@ class ProfileTest extends TestCase
 
         $this->assertNotNull($user->fresh());
     }
+
+    public function test_send_profile_data()
+    {
+        $response = $this->postJson('/api/send-profile-data', [
+            'user_id' => 1,
+            'resume' => 'Sample resume text',
+            'skills' => ['Python', 'Laravel', 'Machine Learning'],
+        ]);
+
+        $response->assertStatus(200)
+                 ->assertJson([
+                     'message' => 'Profile data sent successfully!',
+                 ]);
+    }
 }

@@ -14,25 +14,29 @@ class ProfileController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function sendProfileData(Request $request)
-    {
-        // Validate the incoming request
-        $validatedData = $request->validate([
-            'user_id' => 'required|integer',
-            'resume' => 'required|string',
-            'skills' => 'required|array',
-        ]);
+{
+    // Validate the incoming request
+    $validatedData = $request->validate([
+        'user_id' => 'required|integer',
+        'resume' => 'required|string',
+        'skills' => 'required|array',
+    ]);
 
-        // Define the URL of the Python service
-        $pythonApiUrl = 'http://your-python-service-url/api/recommend-jobs';
+    // Define the URL of the Python service
+    $pythonApiUrl = 'http://127.0.0.1:5000/api/recommend-jobs';
 
-        // Send the profile data to the Python service
-        $response = Http::post($pythonApiUrl, $validatedData);
+    // Force JSON encoding on Laravel's side
+    $response = Http::withHeaders([
+        'Content-Type' => 'application/json',
+    ])->post($pythonApiUrl, json_encode($validatedData));
 
-        // Check the response status and return the appropriate response
-        if ($response->successful()) {
-            return response()->json(['message' => 'Profile data sent successfully!', 'data' => $response->json()], 200);
-        }
-
-        return response()->json(['message' => 'Failed to send profile data.'], $response->status());
+    // Check the response status and return the appropriate response
+    if ($response->successful()) {
+        return response()->json(['message' => 'Profile data sent successfully!', 'data' => $response->json()], 200);
     }
+
+    return response()->json(['message' => 'Failed to send profile data.'], $response->status());
+}
+
+
 }
