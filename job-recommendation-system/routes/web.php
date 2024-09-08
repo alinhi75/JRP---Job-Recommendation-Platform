@@ -27,8 +27,10 @@ Route::middleware('auth')->group(function () {
 
 // Job listing routes
 Route::middleware(['auth', 'employer'])->group(function () {
+    Route::get('/jobs', [JobListingController::class, 'index'])->name('jobs.index'); // List all jobs
     Route::get('/jobs/create', [JobListingController::class, 'create'])->name('jobs.create');
     Route::post('/jobs', [JobListingController::class, 'store'])->name('jobs.store');
+    Route::get('/jobs/{job}', [JobListingController::class, 'show'])->name('jobs.show'); // Show a specific job
     Route::get('/jobs/{job}/edit', [JobListingController::class, 'edit'])->name('jobs.edit');
     Route::put('/jobs/{job}', [JobListingController::class, 'update'])->name('jobs.update');
     Route::delete('/jobs/{job}', [JobListingController::class, 'destroy'])->name('jobs.destroy');
